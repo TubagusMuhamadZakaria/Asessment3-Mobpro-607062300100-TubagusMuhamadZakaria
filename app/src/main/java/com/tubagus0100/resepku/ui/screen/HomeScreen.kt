@@ -13,36 +13,49 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.tubagus0100.resepku.data.DummyResep
+import androidx.compose.material3.TopAppBar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(onRecipeClick: (String) -> Unit) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp)
-    ) {
-        items(DummyResep.listResep) { resep ->
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-                    .clickable { onRecipeClick(resep.id) }
-            ) {
-                Row(
-                    modifier = Modifier.padding(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text("Resep Makanan Favorit")
+                }
+            )
+        }
+    ) { innerPadding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(8.dp)
+        ) {
+            items(DummyResep.listResep) { resep ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .clickable { onRecipeClick(resep.id) }
                 ) {
-                    Image(
-                        painter = painterResource(id = resep.gambarResep),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(80.dp)
-                            .padding(end = 8.dp),
-                        contentScale = ContentScale.Crop
-                    )
-                    Column {
-                        Text(text = resep.nama, style = MaterialTheme.typography.titleMedium)
-                        Text(text = resep.deskripsi, style = MaterialTheme.typography.bodySmall)
+                    Row(
+                        modifier = Modifier.padding(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = resep.gambarResep),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(80.dp)
+                                .padding(end = 8.dp),
+                            contentScale = ContentScale.Crop
+                        )
+                        Column {
+                            Text(text = resep.nama, style = MaterialTheme.typography.titleMedium)
+                            Text(text = resep.deskripsi, style = MaterialTheme.typography.bodySmall)
+                        }
                     }
                 }
             }
