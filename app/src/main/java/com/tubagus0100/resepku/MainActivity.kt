@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.tubagus0100.resepku.data.DummyResep
 import com.tubagus0100.resepku.ui.screen.DetailScreen
 import com.tubagus0100.resepku.ui.screen.HomeScreen
+import com.tubagus0100.resepku.ui.screen.SplashScreen
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,7 +19,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             ResepkuTheme {
                 val navController = rememberNavController()
-                NavHost(navController, startDestination = "home") {
+                NavHost(navController, startDestination = "splash") {
+                    composable("splash") {
+                        SplashScreen(onTimeout = {
+                            navController.navigate("home") {
+                                popUpTo("splash") { inclusive = true }
+                            }
+                        })
+                    }
                     composable("home") {
                         HomeScreen(onRecipeClick = { id ->
                             navController.navigate("detail/$id")
