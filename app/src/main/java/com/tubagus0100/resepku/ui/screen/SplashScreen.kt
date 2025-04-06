@@ -5,7 +5,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.tubagus0100.resepku.ui.theme.ResepkuTheme
 import kotlinx.coroutines.delay
 
 @Composable
@@ -29,3 +31,12 @@ fun SplashScreen(onTimeout: () -> Unit) {
         }
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun SplashScreenPreview() {
+    ResepkuTheme {
+        SplashScreen(onTimeout = {})
+    }
+}
+
