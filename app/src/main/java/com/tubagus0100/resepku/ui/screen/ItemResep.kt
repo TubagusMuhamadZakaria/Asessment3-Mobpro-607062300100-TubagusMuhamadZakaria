@@ -11,8 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.tubagus0100.resepku.data.DummyResep
 import com.tubagus0100.resepku.model.Resep
+import com.tubagus0100.resepku.ui.theme.ResepkuTheme
 
 @Composable
 fun ItemResep(
@@ -40,5 +43,16 @@ fun ItemResep(
                 Text(text = resep.deskripsi, style = MaterialTheme.typography.bodyMedium, maxLines = 2)
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ItemResepPreview() {
+    ResepkuTheme {
+        ItemResep(
+            resep = DummyResep.listResep.first(),
+            onItemClick = {}
+        )
     }
 }
