@@ -11,9 +11,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.tubagus0100.resepku.R
 import com.tubagus0100.resepku.data.DummyResep
 import com.tubagus0100.resepku.model.Resep
+import com.tubagus0100.resepku.ui.theme.ResepkuTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,5 +71,13 @@ fun ResepItem(resep: Resep, onClick: () -> Unit) {
                 Text(text = resep.deskripsi, style = MaterialTheme.typography.bodySmall)
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomeScreenPreview() {
+    ResepkuTheme {
+        HomeScreen(onRecipeClick = {})
     }
 }

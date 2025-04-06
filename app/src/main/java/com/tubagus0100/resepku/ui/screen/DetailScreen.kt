@@ -9,8 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tubagus0100.resepku.model.Resep
+import com.tubagus0100.resepku.R
+import com.tubagus0100.resepku.ui.theme.ResepkuTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 
@@ -65,7 +68,23 @@ fun DetailScreen(resep: Resep, onBackClick: () -> Unit) {
             resep.langkah.forEachIndexed { index, langkah ->
                 Text("${index + 1}. $langkah", style = MaterialTheme.typography.bodyMedium)
             }
-
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DetailScreenPreview() {
+    val contohResep = Resep(
+        id = "soto_ayam",
+        nama = "Soto Ayam",
+        deskripsi = "Soto ayam khas Jawa dengan kuah kuning.",
+        gambarResep = R.drawable.soto_ayam, // Pakai gambar yang sudah ada
+        bahan = listOf("Daging ayam", "Bumbu halus", "Soun", "Telur rebus"),
+        langkah = listOf("Rebus ayam", "Tumis bumbu", "Campurkan dan masak hingga matang")
+    )
+
+    ResepkuTheme {
+        DetailScreen(resep = contohResep, onBackClick = {})
     }
 }
