@@ -19,7 +19,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             ResepkuTheme {
                 val navController = rememberNavController()
-                NavHost(navController, startDestination = "splash") {
+                NavHost(navController = navController, startDestination = "splash") {
+
                     composable("splash") {
                         SplashScreen(onTimeout = {
                             navController.navigate("home") {
@@ -27,11 +28,13 @@ class MainActivity : ComponentActivity() {
                             }
                         })
                     }
+
                     composable("home") {
                         HomeScreen(onRecipeClick = { id ->
                             navController.navigate("detail/$id")
                         })
                     }
+
                     composable(
                         route = "detail/{resepId}",
                         arguments = listOf(navArgument("resepId") { type = NavType.StringType })
