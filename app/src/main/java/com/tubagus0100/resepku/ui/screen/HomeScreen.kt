@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -17,11 +17,6 @@ import com.tubagus0100.resepku.R
 import com.tubagus0100.resepku.data.DummyResep
 import com.tubagus0100.resepku.model.Resep
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,31 +51,36 @@ fun HomeScreen(onRecipeClick: (String) -> Unit) {
 
             LazyColumn {
                 items(filteredResep) { resep ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                            .clickable { onRecipeClick(resep.id) }
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Image(
-                                painter = painterResource(id = resep.gambarResep),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .size(80.dp)
-                                    .padding(end = 8.dp),
-                                contentScale = ContentScale.Crop
-                            )
-                            Column {
-                                Text(text = resep.nama, style = MaterialTheme.typography.titleMedium)
-                                Text(text = resep.deskripsi, style = MaterialTheme.typography.bodySmall)
-                            }
-                        }
-                    }
+                    ItemResep(resep = resep, onItemClick = { onRecipeClick(it) })
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun ItemResep(resep: Resep, onItemClick: (String) -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable { onItemClick(resep.id) }
+    ) {
+        Row(
+            modifier = Modifier.padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(id = resep.gambarResep),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(80.dp)
+                    .padding(end = 8.dp),
+                contentScale = ContentScale.Crop
+            )
+            Column {
+                Text(text = resep.nama, style = MaterialTheme.typography.titleMedium)
+                Text(text = resep.deskripsi, style = MaterialTheme.typography.bodySmall)
             }
         }
     }
@@ -93,5 +93,3 @@ fun HomeScreenPreview() {
         HomeScreen(onRecipeClick = {})
     }
 }
-
-

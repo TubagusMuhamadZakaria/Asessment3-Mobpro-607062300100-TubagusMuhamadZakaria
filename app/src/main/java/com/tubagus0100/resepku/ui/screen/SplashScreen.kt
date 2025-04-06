@@ -39,4 +39,3 @@ fun SplashScreenPreview() {
         SplashScreen(onTimeout = {})
     }
 }
-
