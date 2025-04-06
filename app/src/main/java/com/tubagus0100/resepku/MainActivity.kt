@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
+import com.tubagus0100.resepku.data.DummyResep
 import com.tubagus0100.resepku.ui.screen.DetailScreen
 import com.tubagus0100.resepku.ui.screen.HomeScreen
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
@@ -24,11 +25,14 @@ class MainActivity : ComponentActivity() {
                         })
                     }
                     composable(
-                        "detail/{id}",
-                        arguments = listOf(navArgument("id") { type = NavType.StringType })
+                        route = "detail/{resepId}",
+                        arguments = listOf(navArgument("resepId") { type = NavType.StringType })
                     ) { backStackEntry ->
-                        val id = backStackEntry.arguments?.getString("id") ?: ""
-                        DetailScreen(recipeId = id)
+                        val resepId = backStackEntry.arguments?.getString("resepId")
+                        val resep = DummyResep.listResep.find { it.id == resepId }
+                        if (resep != null) {
+                            DetailScreen(resep = resep)
+                        }
                     }
                 }
             }
