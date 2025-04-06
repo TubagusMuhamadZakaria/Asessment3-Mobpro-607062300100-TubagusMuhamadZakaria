@@ -42,7 +42,10 @@ class MainActivity : ComponentActivity() {
                         val resepId = backStackEntry.arguments?.getString("resepId")
                         val resep = DummyResep.listResep.find { it.id == resepId }
                         if (resep != null) {
-                            DetailScreen(resep = resep)
+                            DetailScreen(
+                                resep = resep,
+                                onBackClick = { navController.popBackStack() }
+                            )
                         }
                     }
                 }

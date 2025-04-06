@@ -11,14 +11,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.tubagus0100.resepku.model.Resep
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(resep: Resep) {
+fun DetailScreen(resep: Resep, onBackClick: () -> Unit) {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(resep.nama) })
+            TopAppBar(
+                title = { Text(resep.nama) },
+                navigationIcon = {
+                    IconButton(onClick = onBackClick) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Kembali"
+                        )
+                    }
+                }
+            )
         }
     ) { innerPadding ->
         Column(
