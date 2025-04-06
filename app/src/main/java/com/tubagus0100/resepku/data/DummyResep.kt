@@ -41,6 +41,115 @@ object DummyResep {
                 "Masukkan mie, tambahkan bumbu dan sayuran",
                 "Aduk hingga matang dan bumbu merata"
             )
+        ),
+
+        Resep(
+            id = "sate_ayam",
+            nama = "Sate Ayam",
+            deskripsi = "Sate ayam bumbu kacang khas Madura.",
+            gambarResep = R.drawable.sate_ayam,
+            bahan = listOf(
+                "500g daging ayam",
+                "Tusuk sate",
+                "Bumbu kacang",
+                "Kecap manis"
+            ),
+            langkah = listOf(
+                "Potong ayam dan tusuk ke tusukan sate",
+                "Bakar sate di atas bara api",
+                "Olesi dengan bumbu kacang dan kecap",
+                "Bakar kembali hingga matang"
+            )
+        ),
+
+        Resep(
+            id = "rendang",
+            nama = "Rendang Daging",
+            deskripsi = "Rendang khas Padang dengan daging sapi empuk.",
+            gambarResep = R.drawable.rendang,
+            bahan = listOf(
+                "1 kg daging sapi",
+                "1 liter santan",
+                "Bumbu rendang (cabai, bawang, rempah-rempah)"
+            ),
+            langkah = listOf(
+                "Tumis bumbu rendang hingga harum",
+                "Masukkan daging dan aduk rata",
+                "Tuang santan, masak hingga mengental",
+                "Masak terus hingga rendang kering dan matang"
+            )
+        ),
+
+        Resep(
+            id = "ayam_goreng",
+            nama = "Ayam Goreng",
+            deskripsi = "Ayam goreng renyah dengan bumbu kuning.",
+            gambarResep = R.drawable.ayam_goreng,
+            bahan = listOf(
+                "1 ekor ayam",
+                "Bumbu kuning (kunyit, bawang putih, garam)",
+                "Minyak goreng"
+            ),
+            langkah = listOf(
+                "Lumuri ayam dengan bumbu kuning",
+                "Rebus hingga bumbu meresap",
+                "Goreng ayam hingga kecokelatan dan renyah"
+            )
+        ),
+
+        Resep(
+            id = "gado_gado",
+            nama = "Gado-Gado",
+            deskripsi = "Salad sayuran dengan bumbu kacang khas Indonesia.",
+            gambarResep = R.drawable.gado_gado,
+            bahan = listOf(
+                "Sayuran rebus (kol, tauge, kacang panjang)",
+                "Telur rebus",
+                "Bumbu kacang",
+                "Kerupuk"
+            ),
+            langkah = listOf(
+                "Siapkan sayuran rebus dan telur",
+                "Tata di piring",
+                "Siram dengan bumbu kacang",
+                "Tambahkan kerupuk di atasnya"
+            )
+        ),
+
+        Resep(
+            id = "bakso",
+            nama = "Bakso",
+            deskripsi = "Bakso daging sapi dengan kuah kaldu gurih.",
+            gambarResep = R.drawable.bakso,
+            bahan = listOf(
+                "500g daging sapi giling",
+                "100g tepung tapioka",
+                "Bawang putih, garam, merica",
+                "Kaldu sapi"
+            ),
+            langkah = listOf(
+                "Campur daging dan bumbu hingga kalis",
+                "Bentuk bulat dan rebus hingga mengapung",
+                "Masak kuah kaldu",
+                "Sajikan bakso dengan kuah"
+            )
+        ),
+
+        Resep(
+            id = "nasi_uduk",
+            nama = "Nasi Uduk",
+            deskripsi = "Nasi gurih dengan santan, khas Betawi.",
+            gambarResep = R.drawable.nasi_uduk,
+            bahan = listOf(
+                "2 gelas beras",
+                "300 ml santan",
+                "Daun salam, serai, garam"
+            ),
+            langkah = listOf(
+                "Masak beras dengan santan dan rempah",
+                "Kukus hingga matang",
+                "Sajikan dengan lauk pelengkap"
+            )
         )
     )
 }
