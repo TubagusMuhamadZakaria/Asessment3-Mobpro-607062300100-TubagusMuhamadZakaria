@@ -39,8 +39,15 @@ fun ItemResep(
                     .padding(8.dp)
             )
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(text = resep.nama, style = MaterialTheme.typography.titleMedium)
-                Text(text = resep.deskripsi, style = MaterialTheme.typography.bodyMedium, maxLines = 2)
+                Text(
+                    text = resep.nama,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = resep.deskripsi,
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 2
+                )
             }
         }
     }
