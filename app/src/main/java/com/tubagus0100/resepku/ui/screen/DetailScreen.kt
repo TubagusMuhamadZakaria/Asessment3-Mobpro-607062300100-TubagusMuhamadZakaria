@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -11,11 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.tubagus0100.resepku.model.Resep
 import com.tubagus0100.resepku.R
+import com.tubagus0100.resepku.model.Resep
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -79,7 +79,7 @@ fun DetailScreenPreview() {
         id = "soto_ayam",
         nama = "Soto Ayam",
         deskripsi = "Soto ayam khas Jawa dengan kuah kuning.",
-        gambarResep = R.drawable.soto_ayam, // Pakai gambar yang sudah ada
+        gambarResep = R.drawable.soto_ayam,
         bahan = listOf("Daging ayam", "Bumbu halus", "Soun", "Telur rebus"),
         langkah = listOf("Rebus ayam", "Tumis bumbu", "Campurkan dan masak hingga matang")
     )
