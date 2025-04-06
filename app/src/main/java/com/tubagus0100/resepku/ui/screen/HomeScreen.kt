@@ -17,58 +17,70 @@ import com.tubagus0100.resepku.R
 import com.tubagus0100.resepku.data.DummyResep
 import com.tubagus0100.resepku.model.Resep
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(onRecipeClick: (String) -> Unit) {
+    var query by remember { mutableStateOf("") }
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    Text("Resep Makanan Favorit")
-                }
+                title = { Text("Resep Makanan Favorit") }
             )
         }
     ) { innerPadding ->
-        LazyColumn(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(8.dp)
         ) {
-            items(DummyResep.listResep) { resep ->
-                ResepItem(resep = resep, onClick = { onRecipeClick(resep.id) })
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-        }
-    }
-}
-
-@Composable
-fun ResepItem(resep: Resep, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = painterResource(id = resep.gambarResep),
-                contentDescription = null,
+            OutlinedTextField(
+                value = query,
+                onValueChange = { query = it },
+                label = { Text("Cari Resep...") },
                 modifier = Modifier
-                    .size(80.dp)
-                    .padding(end = 12.dp),
-                contentScale = ContentScale.Crop
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
             )
-            Column {
-                Text(text = resep.nama, style = MaterialTheme.typography.titleMedium)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = resep.deskripsi, style = MaterialTheme.typography.bodySmall)
+
+            val filteredResep = DummyResep.listResep.filter {
+                it.nama.contains(query, ignoreCase = true)
+            }
+
+            LazyColumn {
+                items(filteredResep) { resep ->
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                            .clickable { onRecipeClick(resep.id) }
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Image(
+                                painter = painterResource(id = resep.gambarResep),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(80.dp)
+                                    .padding(end = 8.dp),
+                                contentScale = ContentScale.Crop
+                            )
+                            Column {
+                                Text(text = resep.nama, style = MaterialTheme.typography.titleMedium)
+                                Text(text = resep.deskripsi, style = MaterialTheme.typography.bodySmall)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
