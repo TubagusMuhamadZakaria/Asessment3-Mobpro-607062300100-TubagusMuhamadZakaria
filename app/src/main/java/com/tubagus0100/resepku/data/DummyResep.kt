@@ -1,7 +1,7 @@
 package com.tubagus0100.resepku.data
 
 import com.tubagus0100.resepku.R
-import com.tubagus0100.resepku.model.Resep
+import com.tubagus0100.resepku.model1.Resep
 
 object DummyResep {
     val listResep = listOf(

@@ -1,4 +1,4 @@
-package com.tubagus0100.resepku.model
+package com.tubagus0100.resepku.model1
 
 data class Resep(
     val id: String,

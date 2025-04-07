@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tubagus0100.resepku.data.DummyResep
-import com.tubagus0100.resepku.model.Resep
+import com.tubagus0100.resepku.model1.Resep
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
 import androidx.compose.material3.Checkbox
 
