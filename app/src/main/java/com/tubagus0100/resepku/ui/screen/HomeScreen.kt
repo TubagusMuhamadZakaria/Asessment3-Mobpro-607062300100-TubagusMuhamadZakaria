@@ -45,9 +45,12 @@ fun HomeScreen(onRecipeClick: (String) -> Unit) {
                     .padding(bottom = 8.dp)
             )
 
-            val filteredResep = DummyResep.listResep.filter {
+            var resepList by remember { mutableStateOf(DummyResep.listResep) }
+
+            val filteredResep = resepList.filter {
                 it.nama.contains(query, ignoreCase = true)
             }
+
 
             LazyColumn {
                 items(filteredResep) { resep ->

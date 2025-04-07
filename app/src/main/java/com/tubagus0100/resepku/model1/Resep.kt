@@ -6,5 +6,6 @@ data class Resep(
     val deskripsi: String,
     val gambarResep: Int,
     val bahan: List<String>,
-    val langkah: List<String>
+    val langkah: List<String>,
+    var isSelected: Boolean = false
 )

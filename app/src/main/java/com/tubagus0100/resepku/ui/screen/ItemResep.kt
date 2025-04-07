@@ -16,11 +16,14 @@ import androidx.compose.ui.unit.dp
 import com.tubagus0100.resepku.data.DummyResep
 import com.tubagus0100.resepku.model.Resep
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
+import androidx.compose.material3.Checkbox
 
 @Composable
 fun ItemResep(
     resep: Resep,
     onItemClick: (String) -> Unit,
+    isSelected: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -30,15 +33,22 @@ fun ItemResep(
             .clickable { onItemClick(resep.id) },
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(8.dp)
+        ) {
             Image(
                 painter = painterResource(id = resep.gambarResep),
                 contentDescription = resep.nama,
                 modifier = Modifier
-                    .size(100.dp)
-                    .padding(8.dp)
+                    .size(80.dp)
+                    .padding(end = 8.dp)
             )
-            Column(modifier = Modifier.padding(8.dp)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 8.dp)
+            ) {
                 Text(
                     text = resep.nama,
                     style = MaterialTheme.typography.titleMedium
@@ -49,9 +59,14 @@ fun ItemResep(
                     maxLines = 2
                 )
             }
+            Checkbox(
+                checked = isSelected,
+                onCheckedChange = onCheckedChange
+            )
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
