@@ -1,5 +1,6 @@
 package com.tubagus0100.resepku.ui.screen
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,8 +25,10 @@ import com.tubagus0100.resepku.ui.theme.ResepkuTheme
 fun HomeScreen(onRecipeClick: (String) -> Unit) {
     var query by remember { mutableStateOf("") }
 
-    // 🟢 State untuk menyimpan ID resep yang dipilih
     val selectedResepIds = remember { mutableStateListOf<String>() }
+
+    // 🔥 Tambahkan Context untuk share intent
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -33,15 +37,23 @@ fun HomeScreen(onRecipeClick: (String) -> Unit) {
             )
         },
         bottomBar = {
-
             if (selectedResepIds.isNotEmpty()) {
                 Button(
                     onClick = {
-                        val selectedNames = DummyResep.listResep
-                            .filter { it.id in selectedResepIds }
-                            .joinToString("\n") { "- ${it.nama}" }
+                        val selectedRecipes = DummyResep.listResep.filter { it.id in selectedResepIds }
+                        val shareText = selectedRecipes.joinToString("\n\n") {
+                            "Nama: ${it.nama}\nDeskripsi: ${it.deskripsi}"
+                        }
 
-                        println("Resep yang dipilih untuk dibagikan:\n$selectedNames")
+                        val intent = Intent().apply {
+                            action = Intent.ACTION_SEND
+                            putExtra(Intent.EXTRA_TEXT, shareText)
+                            type = "text/plain"
+                        }
+
+                        context.startActivity(
+                            Intent.createChooser(intent, "Bagikan Resep via")
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -76,7 +88,6 @@ fun HomeScreen(onRecipeClick: (String) -> Unit) {
                     ItemResep(
                         resep = resep,
                         onItemClick = { onRecipeClick(it) },
-
                         isSelected = resep.id in selectedResepIds,
                         onCheckedChange = { checked ->
                             if (checked) {
