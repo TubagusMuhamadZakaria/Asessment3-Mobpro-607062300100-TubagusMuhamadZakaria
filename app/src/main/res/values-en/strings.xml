@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My Recipes</string>
+    <string name="title_home">Favorite Recipes</string>
+    <string name="search_placeholder">Search Recipe...</string>
+    <string name="share_button">Share (%1$d) Recipe(s)</string>
+    <string name="share_title">Share Recipes via</string>
+    <string name="recipe_name">Name</string>
+    <string name="recipe_desc">Description</string>
+</resources>

@@ -1,22 +1,18 @@
 package com.tubagus0100.resepku.ui.screen
 
 import android.content.Intent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.tubagus0100.resepku.R
 import com.tubagus0100.resepku.data.DummyResep
-import com.tubagus0100.resepku.model.Resep
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,10 +24,15 @@ fun HomeScreen(
     val selectedResepIds = remember { mutableStateListOf<String>() }
     val context = LocalContext.current
 
+    // Ambil string di luar onClick
+    val shareTitle = stringResource(R.string.share_title)
+    val recipeNameLabel = stringResource(R.string.recipe_name)
+    val recipeDescLabel = stringResource(R.string.recipe_desc)
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Resep Makanan Favorit") }
+                title = { Text(stringResource(R.string.title_home)) }
             )
         },
         bottomBar = {
@@ -40,24 +41,24 @@ fun HomeScreen(
                     onClick = {
                         val selectedRecipes = DummyResep.listResep.filter { it.id in selectedResepIds }
                         val shareText = selectedRecipes.joinToString("\n\n") {
-                            "Nama: ${it.nama}\nDeskripsi: ${it.deskripsi}"
+                            "$recipeNameLabel: ${it.nama}\n$recipeDescLabel: ${it.deskripsi}"
                         }
 
                         val intent = Intent().apply {
                             action = Intent.ACTION_SEND
-                            putExtra(Intent.EXTRA_TEXT, "Resep yang saya pilih:\n$shareText")
+                            putExtra(Intent.EXTRA_TEXT, "$shareTitle\n$shareText")
                             type = "text/plain"
                         }
 
                         context.startActivity(
-                            Intent.createChooser(intent, "Bagikan Resep via")
+                            Intent.createChooser(intent, shareTitle)
                         )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
                 ) {
-                    Text("Bagikan (${selectedResepIds.size}) Resep")
+                    Text(stringResource(R.string.share_button, selectedResepIds.size))
                 }
             }
         }
@@ -71,7 +72,7 @@ fun HomeScreen(
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it },
-                label = { Text("Cari Resep...") },
+                label = { Text(stringResource(R.string.search_placeholder)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)

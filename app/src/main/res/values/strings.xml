@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Resepku</string>
+    <string name="title_home">Resep Makanan Favorit</string>
+    <string name="search_placeholder">Cari Resep...</string>
+    <string name="share_button">Bagikan (%1$d) Resep</string>
+    <string name="share_title">Bagikan Resep via</string>
+    <string name="recipe_name">Nama</string>
+    <string name="recipe_desc">Deskripsi</string>
 </resources>
