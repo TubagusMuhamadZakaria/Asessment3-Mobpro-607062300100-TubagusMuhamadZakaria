@@ -23,11 +23,33 @@ import com.tubagus0100.resepku.ui.theme.ResepkuTheme
 fun HomeScreen(onRecipeClick: (String) -> Unit) {
     var query by remember { mutableStateOf("") }
 
+    // 🟢 State untuk menyimpan ID resep yang dipilih
+    val selectedResepIds = remember { mutableStateListOf<String>() }
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Resep Makanan Favorit") }
             )
+        },
+        bottomBar = {
+
+            if (selectedResepIds.isNotEmpty()) {
+                Button(
+                    onClick = {
+                        val selectedNames = DummyResep.listResep
+                            .filter { it.id in selectedResepIds }
+                            .joinToString("\n") { "- ${it.nama}" }
+
+                        println("Resep yang dipilih untuk dibagikan:\n$selectedNames")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                ) {
+                    Text("Bagikan (${selectedResepIds.size}) Resep")
+                }
+            }
         }
     ) { innerPadding ->
         Column(
@@ -45,21 +67,31 @@ fun HomeScreen(onRecipeClick: (String) -> Unit) {
                     .padding(bottom = 8.dp)
             )
 
-            var resepList by remember { mutableStateOf(DummyResep.listResep) }
-
-            val filteredResep = resepList.filter {
+            val filteredResep = DummyResep.listResep.filter {
                 it.nama.contains(query, ignoreCase = true)
             }
 
-
             LazyColumn {
                 items(filteredResep) { resep ->
-                    ItemResep(resep = resep, onItemClick = { onRecipeClick(it) })
+                    ItemResep(
+                        resep = resep,
+                        onItemClick = { onRecipeClick(it) },
+
+                        isSelected = resep.id in selectedResepIds,
+                        onCheckedChange = { checked ->
+                            if (checked) {
+                                selectedResepIds.add(resep.id)
+                            } else {
+                                selectedResepIds.remove(resep.id)
+                            }
+                        }
+                    )
                 }
             }
         }
     }
 }
+
 
 @Composable
 fun ItemResep(resep: Resep, onItemClick: (String) -> Unit) {
