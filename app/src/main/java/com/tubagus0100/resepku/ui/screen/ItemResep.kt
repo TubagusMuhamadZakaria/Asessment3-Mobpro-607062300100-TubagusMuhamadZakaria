@@ -74,7 +74,10 @@ fun ItemResepPreview() {
     ResepkuTheme {
         ItemResep(
             resep = DummyResep.listResep.first(),
-            onItemClick = {}
+            onItemClick = {},
+            isSelected = false,
+            onCheckedChange = {}
         )
     }
 }
+
