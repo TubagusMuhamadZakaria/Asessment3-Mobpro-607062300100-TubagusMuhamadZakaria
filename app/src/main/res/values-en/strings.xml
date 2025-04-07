@@ -6,4 +6,6 @@
     <string name="share_title">Share Recipes via</string>
     <string name="recipe_name">Name</string>
     <string name="recipe_desc">Description</string>
+    <string name="not_found_message">No recipes found, try a different keyword.</string>
+
 </resources>

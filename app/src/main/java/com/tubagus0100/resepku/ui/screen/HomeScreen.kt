@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tubagus0100.resepku.R
@@ -82,20 +83,31 @@ fun HomeScreen(
                 it.nama.contains(query, ignoreCase = true)
             }
 
-            LazyColumn {
-                items(filteredResep) { resep ->
-                    ItemResep(
-                        resep = resep,
-                        onItemClick = { onRecipeClick(it) },
-                        isSelected = resep.id in selectedResepIds,
-                        onCheckedChange = { checked ->
-                            if (checked) {
-                                selectedResepIds.add(resep.id)
-                            } else {
-                                selectedResepIds.remove(resep.id)
+            if (filteredResep.isEmpty()) {
+                Text(
+                    text = stringResource(R.string.not_found_message),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            } else {
+                LazyColumn {
+                    items(filteredResep) { resep ->
+                        ItemResep(
+                            resep = resep,
+                            onItemClick = { onRecipeClick(it) },
+                            isSelected = resep.id in selectedResepIds,
+                            onCheckedChange = { checked ->
+                                if (checked) {
+                                    selectedResepIds.add(resep.id)
+                                } else {
+                                    selectedResepIds.remove(resep.id)
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }

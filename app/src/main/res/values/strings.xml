@@ -6,4 +6,6 @@
     <string name="share_title">Bagikan Resep via</string>
     <string name="recipe_name">Nama</string>
     <string name="recipe_desc">Deskripsi</string>
+    <string name="not_found_message">Resep tidak ditemukan, coba kata kunci lain.</string>
+
 </resources>
