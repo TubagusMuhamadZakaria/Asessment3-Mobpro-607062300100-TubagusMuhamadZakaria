@@ -1,29 +1,17 @@
 package com.tubagus0100.resepku.ui.screen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
+import androidx.compose.ui.Alignment
 
 @Composable
 fun InputResepScreen(
-    onSave: (String, String) -> Unit,
-    onCancel: () -> Unit,
+    onSaveClick: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var nama by remember { mutableStateOf("") }
@@ -58,22 +46,11 @@ fun InputResepScreen(
                 .padding(bottom = 16.dp)
         )
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+        Button(
+            onClick = { onSaveClick(nama, deskripsi) },
+            modifier = Modifier.align(Alignment.End)
         ) {
-            Button(onClick = onCancel) {
-                Text("Batal")
-            }
-            Button(
-                onClick = {
-                    if (nama.isNotBlank() && deskripsi.isNotBlank()) {
-                        onSave(nama, deskripsi)
-                    }
-                }
-            ) {
-                Text("Simpan")
-            }
+            Text("Simpan")
         }
     }
 }
@@ -83,8 +60,7 @@ fun InputResepScreen(
 fun InputResepScreenPreview() {
     ResepkuTheme {
         InputResepScreen(
-            onSave = { _, _ -> },
-            onCancel = {}
+            onSaveClick = { _, _ -> }
         )
     }
 }

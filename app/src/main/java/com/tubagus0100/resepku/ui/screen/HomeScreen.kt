@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,12 +23,12 @@ import com.tubagus0100.resepku.ui.theme.ResepkuTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(onRecipeClick: (String) -> Unit) {
+fun HomeScreen(
+    onRecipeClick: (String) -> Unit,
+    onAddResepClick: () -> Unit // 🔥 Tambahan untuk FAB
+) {
     var query by remember { mutableStateOf("") }
-
     val selectedResepIds = remember { mutableStateListOf<String>() }
-
-    // 🔥 Tambahkan Context untuk share intent
     val context = LocalContext.current
 
     Scaffold(
@@ -60,6 +62,14 @@ fun HomeScreen(onRecipeClick: (String) -> Unit) {
                 ) {
                     Text("Bagikan (${selectedResepIds.size}) Resep")
                 }
+            }
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = onAddResepClick) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Tambah Resep"
+                )
             }
         }
     ) { innerPadding ->
@@ -106,6 +116,9 @@ fun HomeScreen(onRecipeClick: (String) -> Unit) {
 @Composable
 fun HomeScreenPreview() {
     ResepkuTheme {
-        HomeScreen(onRecipeClick = {})
+        HomeScreen(
+            onRecipeClick = {},
+            onAddResepClick = {} // ← ini juga perlu ditambahkan di preview
+        )
     }
 }
