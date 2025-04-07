@@ -1,3 +1,3 @@
-Tubagus Muhamad Zakaria  
-607062300100  
-D3IF-47-02
+Nama    :Tubagus Muhamad Zakaria  
+NIM     :607062300100  
+Kelas   :D3IF-47-02
