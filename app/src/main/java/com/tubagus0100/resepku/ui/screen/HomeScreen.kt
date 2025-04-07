@@ -15,7 +15,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.tubagus0100.resepku.R
 import com.tubagus0100.resepku.data.DummyResep
 import com.tubagus0100.resepku.model.Resep
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
@@ -47,7 +46,7 @@ fun HomeScreen(onRecipeClick: (String) -> Unit) {
 
                         val intent = Intent().apply {
                             action = Intent.ACTION_SEND
-                            putExtra(Intent.EXTRA_TEXT, shareText)
+                            putExtra(Intent.EXTRA_TEXT, "Resep yang saya pilih:\n$shareText")
                             type = "text/plain"
                         }
 
@@ -100,42 +99,5 @@ fun HomeScreen(onRecipeClick: (String) -> Unit) {
                 }
             }
         }
-    }
-}
-
-
-@Composable
-fun ItemResep(resep: Resep, onItemClick: (String) -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .clickable { onItemClick(resep.id) }
-    ) {
-        Row(
-            modifier = Modifier.padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = painterResource(id = resep.gambarResep),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(80.dp)
-                    .padding(end = 8.dp),
-                contentScale = ContentScale.Crop
-            )
-            Column {
-                Text(text = resep.nama, style = MaterialTheme.typography.titleMedium)
-                Text(text = resep.deskripsi, style = MaterialTheme.typography.bodySmall)
-            }
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    ResepkuTheme {
-        HomeScreen(onRecipeClick = {})
     }
 }
