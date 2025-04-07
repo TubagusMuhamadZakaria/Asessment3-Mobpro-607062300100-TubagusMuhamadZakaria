@@ -101,3 +101,11 @@ fun HomeScreen(onRecipeClick: (String) -> Unit) {
         }
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun HomeScreenPreview() {
+    ResepkuTheme {
+        HomeScreen(onRecipeClick = {})
+    }
+}
