@@ -37,7 +37,7 @@ import androidx.compose.material3.Icon
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onRecipeClick: (String) -> Unit,
+    onRecipeClick: (Int) -> Unit,
     onAddClick: () -> Unit,
     viewModel: ResepViewModel
 ) {
@@ -125,7 +125,7 @@ fun HomeScreen(
                     items(filteredResep) { resep ->
                         ItemResep(
                             resep = resep,
-                            onItemClick = { onRecipeClick(resep.id.toString()) },
+                            onItemClick = { onRecipeClick(resep.id) },
                             isSelected = resep.id in selectedResepIds,
                             onCheckedChange = { checked ->
                                 if (checked) selectedResepIds.add(resep.id)

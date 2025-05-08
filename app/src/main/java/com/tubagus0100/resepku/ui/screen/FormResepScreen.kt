@@ -12,73 +12,46 @@ import com.tubagus0100.resepku.ui.theme.ResepkuTheme
 
 @Composable
 fun FormResepScreen(
+    resep: ResepEntity? = null,
     onSave: (ResepEntity) -> Unit,
     onCancel: () -> Unit
 ) {
-    var judul by remember { mutableStateOf("") }
-    var deskripsi by remember { mutableStateOf("") }
-    var bahan by remember { mutableStateOf("") }
-    var langkah by remember { mutableStateOf("") }
+    var judul by remember { mutableStateOf(resep?.judul ?: "") }
+    var deskripsi by remember { mutableStateOf(resep?.deskripsi ?: "") }
+    var bahan by remember { mutableStateOf(resep?.bahan ?: "") }
+    var langkah by remember { mutableStateOf(resep?.langkah ?: "") }
 
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text("Tambah Resep Baru", style = MaterialTheme.typography.headlineSmall)
+    Column(Modifier.padding(16.dp)) {
+        OutlinedTextField(value = judul, onValueChange = { judul = it }, label = { Text("Judul") })
+        OutlinedTextField(value = deskripsi, onValueChange = { deskripsi = it }, label = { Text("Deskripsi") })
+        OutlinedTextField(value = bahan, onValueChange = { bahan = it }, label = { Text("Bahan") })
+        OutlinedTextField(value = langkah, onValueChange = { langkah = it }, label = { Text("Langkah") })
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(Modifier.height(16.dp))
 
-        OutlinedTextField(
-            value = judul,
-            onValueChange = { judul = it },
-            label = { Text("Judul") },
-            modifier = Modifier.fillMaxWidth()
-        )
+        Button(onClick = {
+            val updated = resep?.copy(
+                judul = judul,
+                deskripsi = deskripsi,
+                bahan = bahan,
+                langkah = langkah
+            ) ?: ResepEntity(
+                judul = judul,
+                deskripsi = deskripsi,
+                bahan = bahan,
+                langkah = langkah
+            )
+            onSave(updated)
+        }) {
+            Text("Simpan")
+        }
 
-        OutlinedTextField(
-            value = deskripsi,
-            onValueChange = { deskripsi = it },
-            label = { Text("Deskripsi") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        OutlinedTextField(
-            value = bahan,
-            onValueChange = { bahan = it },
-            label = { Text("Bahan (pisahkan dengan koma)") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        OutlinedTextField(
-            value = langkah,
-            onValueChange = { langkah = it },
-            label = { Text("Langkah-langkah (pisahkan dengan koma)") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            TextButton(onClick = onCancel) {
-                Text("Batal")
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            Button(
-                onClick = {
-                    if (judul.isNotBlank() && deskripsi.isNotBlank()) {
-                        onSave(
-                            ResepEntity(
-                                judul = judul,
-                                deskripsi = deskripsi,
-                                bahan = bahan,
-                                langkah = langkah
-                            )
-                        )
-                    }
-                }
-            ) {
-                Text("Simpan")
-            }
+        TextButton(onClick = onCancel) {
+            Text("Batal")
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

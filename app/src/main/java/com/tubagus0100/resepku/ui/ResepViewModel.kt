@@ -4,19 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tubagus0100.resepku.data.ResepRepository
 import com.tubagus0100.resepku.model1.ResepEntity
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.Flow
-
+import kotlinx.coroutines.launch
 
 class ResepViewModel(private val repository: ResepRepository) : ViewModel() {
 
-    val resepList: StateFlow<List<ResepEntity>> = repository.getAllResep()
-        .map { it }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    val resepList: Flow<List<ResepEntity>> = repository.getAllResep()
 
     fun insertResep(resep: ResepEntity) {
         viewModelScope.launch {
@@ -24,13 +17,13 @@ class ResepViewModel(private val repository: ResepRepository) : ViewModel() {
         }
     }
 
-    fun update(resep: ResepEntity) {
+    fun updateResep(resep: ResepEntity) {
         viewModelScope.launch {
             repository.updateResep(resep)
         }
     }
 
-    fun delete(resep: ResepEntity) {
+    fun deleteResep(resep: ResepEntity) {
         viewModelScope.launch {
             repository.deleteResep(resep)
         }

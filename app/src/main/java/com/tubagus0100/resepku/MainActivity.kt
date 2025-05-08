@@ -63,16 +63,22 @@ fun ResepkuApp() {
 
         composable(
             route = "detail/{resepId}",
-            arguments = listOf(navArgument("resepId") { type = NavType.StringType })
+            arguments = listOf(navArgument("resepId") { type = NavType.IntType })
         ) { backStackEntry ->
-            val resepId = backStackEntry.arguments?.getString("resepId")?.toIntOrNull()
+            val resepId = backStackEntry.arguments?.getInt("resepId") ?: -1
+            val resep = viewModel.getResepById(resepId).collectAsState(initial = null).value
 
-            val resepState = resepId?.let { viewModel.getResepById(it).collectAsState(initial = null) }
-
-            resepState?.value?.let { resep ->
+            resep?.let {
                 DetailScreen(
-                    resep = resep,
-                    onBackClick = { navController.popBackStack() }
+                    resep = it,
+                    onBackClick = { navController.popBackStack() },
+                    onEditClick = {
+                        navController.navigate("form?resepId=$resepId")
+                    },
+                    onDeleteClick = {
+                        viewModel.deleteResep(it)
+                        navController.popBackStack()
+                    }
                 )
             }
         }
