@@ -11,8 +11,7 @@ import com.tubagus0100.resepku.model1.ResepEntity
 @Composable
 fun FormResepScreen(
     onSave: (ResepEntity) -> Unit,
-    onCancel: () -> Unit,
-    modifier: Modifier = Modifier
+    onCancel: () -> Unit
 ) {
     var judul by remember { mutableStateOf("") }
     var deskripsi by remember { mutableStateOf("") }
@@ -20,62 +19,60 @@ fun FormResepScreen(
     var langkah by remember { mutableStateOf("") }
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+            .padding(16.dp)
     ) {
-        Text("Tambah Resep", style = MaterialTheme.typography.headlineSmall)
+        Text("Tambah Resep Baru", style = MaterialTheme.typography.headlineSmall)
 
         OutlinedTextField(
             value = judul,
             onValueChange = { judul = it },
-            label = { Text("Judul") },
-            modifier = Modifier.fillMaxWidth()
+            label = { Text("Judul Resep") },
+            modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
         )
 
         OutlinedTextField(
             value = deskripsi,
             onValueChange = { deskripsi = it },
             label = { Text("Deskripsi") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
         )
 
         OutlinedTextField(
             value = bahan,
             onValueChange = { bahan = it },
             label = { Text("Bahan") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
         )
 
         OutlinedTextField(
             value = langkah,
             onValueChange = { langkah = it },
             label = { Text("Langkah") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
         )
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+            horizontalArrangement = Arrangement.End
         ) {
-            OutlinedButton(onClick = onCancel) {
+            TextButton(onClick = onCancel) {
                 Text("Batal")
             }
-            Button(
-                onClick = {
-                    if (judul.isNotBlank() && deskripsi.isNotBlank()) {
-                        onSave(
-                            ResepEntity(
-                                judul = judul,
-                                deskripsi = deskripsi,
-                                bahan = bahan,
-                                langkah = langkah
-                            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(onClick = {
+                if (judul.isNotBlank() && deskripsi.isNotBlank()) {
+                    onSave(
+                        ResepEntity(
+                            judul = judul,
+                            deskripsi = deskripsi,
+                            bahan = bahan,
+                            langkah = langkah
                         )
-                    }
+                    )
                 }
-            ) {
+            }) {
                 Text("Simpan")
             }
         }
