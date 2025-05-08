@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -12,7 +13,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.tubagus0100.resepku.data.DummyResep
 import com.tubagus0100.resepku.data.Injection
 import com.tubagus0100.resepku.model1.ResepEntity
 import com.tubagus0100.resepku.ui.ResepViewModel
@@ -34,7 +34,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ResepkuApp() {
     val navController = rememberNavController()
-
     val context = LocalContext.current
     val viewModel: ResepViewModel = viewModel(
         factory = ResepViewModelFactory(Injection.provideRepository(context))
@@ -66,13 +65,17 @@ fun ResepkuApp() {
             route = "detail/{resepId}",
             arguments = listOf(navArgument("resepId") { type = NavType.StringType })
         ) { backStackEntry ->
-            val resepId = backStackEntry.arguments?.getString("resepId")
-            val resep = DummyResep.listResep.find { it.id == resepId }
-            if (resep != null) {
-                DetailScreen(
-                    resep = resep,
-                    onBackClick = { navController.popBackStack() }
-                )
+            val resepId = backStackEntry.arguments?.getString("resepId")?.toIntOrNull()
+            if (resepId != null) {
+                val resepState = viewModel.getResepById(resepId).collectAsState(initial = null)
+                val resep = resepState.value
+
+                resep?.let {
+                    DetailScreen(
+                        resep = it,
+                        onBackClick = { navController.popBackStack() }
+                    )
+                }
             }
         }
 

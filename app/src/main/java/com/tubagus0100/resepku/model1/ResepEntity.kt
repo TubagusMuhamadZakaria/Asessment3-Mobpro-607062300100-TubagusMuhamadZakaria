@@ -11,4 +11,7 @@ data class ResepEntity(
     val deskripsi: String,
     val bahan: String,
     val langkah: String
-)
+) {
+    fun getBahanList(): List<String> = bahan.split(";")
+    fun getLangkahList(): List<String> = langkah.split(";")
+}

@@ -18,5 +18,9 @@ interface ResepDao {
 
     @Query("SELECT * FROM resep ORDER BY id DESC")
     fun getAllResep(): Flow<List<ResepEntity>>
+
+    @Query("SELECT * FROM resep WHERE id = :id")
+    fun getResepById(id: Int): Flow<ResepEntity?>
+
 }
 

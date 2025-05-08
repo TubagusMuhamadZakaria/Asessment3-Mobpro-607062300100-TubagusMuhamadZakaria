@@ -89,7 +89,10 @@ fun HomeScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddClick) {
-                Icon(Icons.Default.Add, contentDescription = "Tambah Resep")
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Tambah Resep"
+                )
             }
         }
     ) { innerPadding ->
@@ -125,11 +128,8 @@ fun HomeScreen(
                             onItemClick = { onRecipeClick(resep.id.toString()) },
                             isSelected = resep.id in selectedResepIds,
                             onCheckedChange = { checked ->
-                                if (checked) {
-                                    selectedResepIds.add(resep.id)
-                                } else {
-                                    selectedResepIds.remove(resep.id)
-                                }
+                                if (checked) selectedResepIds.add(resep.id)
+                                else selectedResepIds.remove(resep.id)
                             }
                         )
                     }

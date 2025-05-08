@@ -7,9 +7,12 @@ class ResepRepository(private val resepDao: ResepDao) {
 
     fun getAllResep(): Flow<List<ResepEntity>> = resepDao.getAllResep()
 
+    fun getResepById(id: Int): Flow<ResepEntity?> = resepDao.getResepById(id)
+
     suspend fun insertResep(resep: ResepEntity) = resepDao.insertResep(resep)
 
     suspend fun updateResep(resep: ResepEntity) = resepDao.updateResep(resep)
 
     suspend fun deleteResep(resep: ResepEntity) = resepDao.deleteResep(resep)
+
 }

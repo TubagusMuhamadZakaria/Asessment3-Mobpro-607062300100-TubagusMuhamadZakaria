@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
+
 
 class ResepViewModel(private val repository: ResepRepository) : ViewModel() {
 
@@ -22,7 +24,6 @@ class ResepViewModel(private val repository: ResepRepository) : ViewModel() {
         }
     }
 
-
     fun update(resep: ResepEntity) {
         viewModelScope.launch {
             repository.updateResep(resep)
@@ -33,5 +34,9 @@ class ResepViewModel(private val repository: ResepRepository) : ViewModel() {
         viewModelScope.launch {
             repository.deleteResep(resep)
         }
+    }
+
+    fun getResepById(id: Int): Flow<ResepEntity?> {
+        return repository.getResepById(id)
     }
 }
