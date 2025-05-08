@@ -8,14 +8,15 @@ import kotlinx.coroutines.flow.Flow
 interface ResepDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(resep: ResepEntity)
+    suspend fun insertResep(resep: ResepEntity)
 
     @Update
-    suspend fun update(resep: ResepEntity)
+    suspend fun updateResep(resep: ResepEntity)
 
     @Delete
-    suspend fun delete(resep: ResepEntity)
+    suspend fun deleteResep(resep: ResepEntity)
 
     @Query("SELECT * FROM resep ORDER BY id DESC")
     fun getAllResep(): Flow<List<ResepEntity>>
 }
+
