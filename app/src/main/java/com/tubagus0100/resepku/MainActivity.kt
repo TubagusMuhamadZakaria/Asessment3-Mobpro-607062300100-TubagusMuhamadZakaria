@@ -57,7 +57,8 @@ fun ResepkuApp() {
                 },
                 onAddClick = {
                     navController.navigate("form")
-                }
+                },
+                viewModel = viewModel
             )
         }
 

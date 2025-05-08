@@ -1,26 +1,19 @@
 package com.tubagus0100.resepku.ui.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.tubagus0100.resepku.data.DummyResep
-import com.tubagus0100.resepku.model1.Resep
+import com.tubagus0100.resepku.model1.ResepEntity
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
-import androidx.compose.material3.Checkbox
 
 @Composable
 fun ItemResep(
-    resep: Resep,
+    resep: ResepEntity,
     onItemClick: (String) -> Unit,
     isSelected: Boolean,
     onCheckedChange: (Boolean) -> Unit,
@@ -30,27 +23,20 @@ fun ItemResep(
         modifier = modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .clickable { onItemClick(resep.id) },
+            .clickable { onItemClick(resep.id.toString()) },
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(8.dp)
         ) {
-            Image(
-                painter = painterResource(id = resep.gambarResep),
-                contentDescription = resep.nama,
-                modifier = Modifier
-                    .size(80.dp)
-                    .padding(end = 8.dp)
-            )
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 8.dp)
             ) {
                 Text(
-                    text = resep.nama,
+                    text = resep.judul,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
@@ -67,17 +53,22 @@ fun ItemResep(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun ItemResepPreview() {
+    val dummyResep = ResepEntity(
+        id = 1,
+        judul = "Nasi Goreng",
+        deskripsi = "Nasi goreng enak dan praktis",
+        bahan = "Nasi, telur, kecap",
+        langkah = "1. Tumis bawang\n2. Masukkan nasi\n3. Tambahkan bumbu"
+    )
     ResepkuTheme {
         ItemResep(
-            resep = DummyResep.listResep.first(),
+            resep = dummyResep,
             onItemClick = {},
             isSelected = false,
             onCheckedChange = {}
         )
     }
 }
-
