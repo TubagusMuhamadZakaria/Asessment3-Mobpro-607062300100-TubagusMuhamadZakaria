@@ -19,7 +19,8 @@ import com.tubagus0100.resepku.ui.theme.ResepkuTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onRecipeClick: (String) -> Unit
+    onRecipeClick: (String) -> Unit,
+    onAddClick: () -> Unit
 ) {
     var query by remember { mutableStateOf("") }
     val selectedResepIds = remember { mutableStateListOf<String>() }
@@ -119,7 +120,8 @@ fun HomeScreen(
 fun HomeScreenPreview() {
     ResepkuTheme {
         HomeScreen(
-            onRecipeClick = {}
+            onRecipeClick = {},
+            onAddClick = {}
         )
     }
 }

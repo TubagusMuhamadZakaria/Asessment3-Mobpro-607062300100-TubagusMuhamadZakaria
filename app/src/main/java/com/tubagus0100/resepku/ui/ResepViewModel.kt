@@ -16,11 +16,12 @@ class ResepViewModel(private val repository: ResepRepository) : ViewModel() {
         .map { it }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    fun insert(resep: ResepEntity) {
+    fun insertResep(resep: ResepEntity) {
         viewModelScope.launch {
             repository.insertResep(resep)
         }
     }
+
 
     fun update(resep: ResepEntity) {
         viewModelScope.launch {
