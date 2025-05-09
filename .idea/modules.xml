@@ -3,11 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AndroidStudioProjects.Resepku.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AndroidStudioProjects.Resepku.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AndroidStudioProjects.Resepku.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AndroidStudioProjects.Resepku.app.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AndroidStudioProjects.Resepku.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AndroidStudioProjects.Resepku.app.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AndroidStudioProjects.Resepku.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AndroidStudioProjects.Resepku.app.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Resepku.iml" filepath="$PROJECT_DIR$/.idea/modules/Resepku.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Resepku.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Resepku.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Resepku.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Resepku.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Resepku.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Resepku.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Resepku.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Resepku.app.unitTest.iml" />
     </modules>
   </component>
 </project>
