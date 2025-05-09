@@ -3,22 +3,20 @@ package com.tubagus0100.resepku
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.tubagus0100.resepku.data.Injection
-import com.tubagus0100.resepku.model1.ResepEntity
+import com.tubagus0100.resepku.data.PreferenceManager
 import com.tubagus0100.resepku.ui.ResepViewModel
 import com.tubagus0100.resepku.ui.screen.*
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
 import com.tubagus0100.resepku.viewmodel.ResepViewModelFactory
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,9 +33,18 @@ class MainActivity : ComponentActivity() {
 fun ResepkuApp() {
     val navController = rememberNavController()
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    val preferenceManager = PreferenceManager.getInstance(context)
+
     val viewModel: ResepViewModel = viewModel(
-        factory = ResepViewModelFactory(Injection.provideRepository(context))
+        factory = ResepViewModelFactory(
+            Injection.provideRepository(context),
+            preferenceManager
+        )
     )
+
+    val isGridMode by preferenceManager.isGridMode.collectAsState(initial = false)
 
     NavHost(navController = navController, startDestination = "splash") {
 
@@ -55,9 +62,15 @@ fun ResepkuApp() {
                     navController.navigate("detail/$id")
                 },
                 onAddClick = {
-                    navController.navigate("form")
+                    navController.navigate("form?resepId=-1")
                 },
-                viewModel = viewModel
+                viewModel = viewModel,
+                isGridMode = isGridMode,
+                onToggleView = { newValue ->
+                    scope.launch {
+                        preferenceManager.setGridMode(newValue)
+                    }
+                }
             )
         }
 
@@ -73,7 +86,7 @@ fun ResepkuApp() {
                     resep = it,
                     onBackClick = { navController.popBackStack() },
                     onEditClick = {
-                        navController.navigate("form?resepId=$resepId")
+                        navController.navigate("form?resepId=${resep.id}")
                     },
                     onDeleteClick = {
                         viewModel.deleteResep(it)
@@ -83,11 +96,26 @@ fun ResepkuApp() {
             }
         }
 
+        composable(
+            route = "form?resepId={resepId}",
+            arguments = listOf(
+                navArgument("resepId") {
+                    type = NavType.IntType
+                    defaultValue = -1
+                }
+            )
+        ) { backStackEntry ->
+            val resepId = backStackEntry.arguments?.getInt("resepId") ?: -1
+            val resep = viewModel.getResepById(resepId).collectAsState(initial = null).value
 
-        composable("form") {
             FormResepScreen(
-                onSave = { resep: ResepEntity ->
-                    viewModel.insertResep(resep)
+                resep = resep,
+                onSave = { entity ->
+                    if (resepId == -1) {
+                        viewModel.insertResep(entity)
+                    } else {
+                        viewModel.updateResep(entity)
+                    }
                     navController.popBackStack()
                 },
                 onCancel = {

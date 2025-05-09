@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AndroidStudioProjects.Resepku.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AndroidStudioProjects.Resepku.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Resepku.iml" filepath="$PROJECT_DIR$/.idea/modules/Resepku.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Resepku.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Resepku.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Resepku.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Resepku.app.androidTest.iml" />

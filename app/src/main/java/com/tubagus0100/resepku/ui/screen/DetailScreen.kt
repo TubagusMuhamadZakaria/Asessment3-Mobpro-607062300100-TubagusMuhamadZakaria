@@ -5,6 +5,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,6 +23,7 @@ fun DetailScreen(
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit
 ) {
+    var showMenu by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
 
     if (showDialog) {
@@ -58,6 +60,33 @@ fun DetailScreen(
                             contentDescription = "Kembali"
                         )
                     }
+                },
+                actions = {
+                    IconButton(onClick = { showMenu = !showMenu }) {
+                        Icon(
+                            imageVector = Icons.Default.MoreVert,
+                            contentDescription = "Menu"
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Edit") },
+                            onClick = {
+                                showMenu = false
+                                onEditClick()
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Hapus") },
+                            onClick = {
+                                showMenu = false
+                                showDialog = true
+                            }
+                        )
+                    }
                 }
             )
         }
@@ -85,23 +114,6 @@ fun DetailScreen(
             Text("Langkah-langkah:", style = MaterialTheme.typography.titleMedium)
             resep.langkah.split(";").forEachIndexed { index, langkah ->
                 Text("${index + 1}. $langkah", style = MaterialTheme.typography.bodyMedium)
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Button(onClick = onEditClick) {
-                    Text("Edit")
-                }
-
-                Button(
-                    onClick = { showDialog = true },
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
-                ) {
-                    Text("Hapus")
-                }
             }
         }
     }

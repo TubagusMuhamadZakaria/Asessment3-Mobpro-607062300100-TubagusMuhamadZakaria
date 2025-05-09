@@ -27,12 +27,13 @@ import com.tubagus0100.resepku.ui.ResepViewModel
 fun HomeScreen(
     onRecipeClick: (Int) -> Unit,
     onAddClick: () -> Unit,
-    viewModel: ResepViewModel
+    viewModel: ResepViewModel,
+    isGridMode: Boolean,
+    onToggleView: (Boolean) -> Unit
 ) {
     var query by remember { mutableStateOf("") }
     val selectedResepIds = remember { mutableStateListOf<Int>() }
     val context = LocalContext.current
-    var isGridMode by remember { mutableStateOf(false) }
 
     val shareTitle = stringResource(R.string.share_title)
     val recipeNameLabel = stringResource(R.string.recipe_name)
@@ -48,7 +49,7 @@ fun HomeScreen(
             TopAppBar(
                 title = { Text(stringResource(R.string.title_home)) },
                 actions = {
-                    IconButton(onClick = { isGridMode = !isGridMode }) {
+                    IconButton(onClick = { onToggleView(!isGridMode) }) {
                         Icon(
                             imageVector = if (isGridMode) Icons.Default.List else Icons.Default.ViewModule,
                             contentDescription = if (isGridMode) "Tampilan List" else "Tampilan Grid"
@@ -117,7 +118,10 @@ fun HomeScreen(
                 )
             } else {
                 if (isGridMode) {
-                    LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        contentPadding = PaddingValues(bottom = 88.dp)
+                    ) {
                         items(filteredResep) { resep ->
                             ItemResep(
                                 resep = resep,
@@ -132,7 +136,9 @@ fun HomeScreen(
                         }
                     }
                 } else {
-                    LazyColumn {
+                    LazyColumn(
+                        contentPadding = PaddingValues(bottom = 88.dp)
+                    ) {
                         items(filteredResep) { resep ->
                             ItemResep(
                                 resep = resep,

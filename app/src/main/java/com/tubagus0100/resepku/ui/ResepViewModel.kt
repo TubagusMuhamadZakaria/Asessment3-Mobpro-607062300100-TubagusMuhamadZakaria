@@ -2,14 +2,28 @@ package com.tubagus0100.resepku.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tubagus0100.resepku.data.PreferenceManager
 import com.tubagus0100.resepku.data.ResepRepository
 import com.tubagus0100.resepku.model1.ResepEntity
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class ResepViewModel(private val repository: ResepRepository) : ViewModel() {
+class ResepViewModel(
+    private val repository: ResepRepository,
+    private val pref: PreferenceManager
+) : ViewModel() {
 
-    val resepList: Flow<List<ResepEntity>> = repository.getAllResep()
+    val resepList: StateFlow<List<ResepEntity>> = repository.getAllResep()
+        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
+    val isGridMode: StateFlow<Boolean> = pref.isGridMode
+        .stateIn(viewModelScope, SharingStarted.Lazily, false)
+
+    fun setGridMode(enabled: Boolean) {
+        viewModelScope.launch {
+            pref.setGridMode(enabled)
+        }
+    }
 
     fun insertResep(resep: ResepEntity) {
         viewModelScope.launch {
@@ -30,6 +44,6 @@ class ResepViewModel(private val repository: ResepRepository) : ViewModel() {
     }
 
     fun getResepById(id: Int): Flow<ResepEntity?> {
-        return repository.getResepById(id)
+        return repository.getAllResep().map { list -> list.find { it.id == id } }
     }
 }
