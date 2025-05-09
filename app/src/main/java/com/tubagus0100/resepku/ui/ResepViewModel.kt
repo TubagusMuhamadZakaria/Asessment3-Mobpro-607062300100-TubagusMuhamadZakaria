@@ -16,9 +16,11 @@ class ResepViewModel(
     val resepList: StateFlow<List<ResepEntity>> = repository.getAllResep()
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
+    @Suppress("unused")
     val isGridMode: StateFlow<Boolean> = pref.isGridMode
         .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
+    @Suppress("unused")
     fun setGridMode(enabled: Boolean) {
         viewModelScope.launch {
             pref.setGridMode(enabled)

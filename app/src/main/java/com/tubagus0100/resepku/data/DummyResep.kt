@@ -3,8 +3,9 @@ package com.tubagus0100.resepku.data
 import com.tubagus0100.resepku.R
 import com.tubagus0100.resepku.model1.Resep
 
+@Suppress("unused")
 object DummyResep {
-    val listResep = listOf(
+    val listResep: List<Resep> = listOf(
         Resep(
             id = "nasi_goreng",
             nama = "Nasi Goreng",
@@ -23,7 +24,6 @@ object DummyResep {
                 "Tambahkan kecap dan bumbu, aduk hingga matang"
             )
         ),
-
         Resep(
             id = "mie_goreng",
             nama = "Mie Goreng",
@@ -42,7 +42,6 @@ object DummyResep {
                 "Aduk hingga matang dan bumbu merata"
             )
         ),
-
         Resep(
             id = "sate_ayam",
             nama = "Sate Ayam",
@@ -61,7 +60,6 @@ object DummyResep {
                 "Bakar kembali hingga matang"
             )
         ),
-
         Resep(
             id = "rendang",
             nama = "Rendang Daging",
@@ -79,7 +77,6 @@ object DummyResep {
                 "Masak terus hingga rendang kering dan matang"
             )
         ),
-
         Resep(
             id = "ayam_goreng",
             nama = "Ayam Goreng",
@@ -96,7 +93,6 @@ object DummyResep {
                 "Goreng ayam hingga kecokelatan dan renyah"
             )
         ),
-
         Resep(
             id = "gado_gado",
             nama = "Gado-Gado",
@@ -115,7 +111,6 @@ object DummyResep {
                 "Tambahkan kerupuk di atasnya"
             )
         ),
-
         Resep(
             id = "bakso",
             nama = "Bakso",
@@ -134,7 +129,6 @@ object DummyResep {
                 "Sajikan bakso dengan kuah"
             )
         ),
-
         Resep(
             id = "nasi_uduk",
             nama = "Nasi Uduk",

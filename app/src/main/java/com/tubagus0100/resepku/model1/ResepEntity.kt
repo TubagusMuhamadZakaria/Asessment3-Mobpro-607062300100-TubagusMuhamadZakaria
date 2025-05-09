@@ -12,6 +12,9 @@ data class ResepEntity(
     val bahan: String,
     val langkah: String
 ) {
+    @Suppress("unused")
     fun getBahanList(): List<String> = bahan.split(";")
+
+    @Suppress("unused")
     fun getLangkahList(): List<String> = langkah.split(";")
 }

@@ -1,7 +1,6 @@
 package com.tubagus0100.resepku.data
 
 import android.content.Context
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -11,7 +10,11 @@ import kotlinx.coroutines.flow.map
 
 private val Context.dataStore by preferencesDataStore(name = "settings")
 
-class PreferenceManager private constructor(private val context: Context) {
+class PreferenceManager private constructor(context: Context) {
+
+    // Hanya menyimpan applicationContext, aman dari memory leak
+    private val appContext = context.applicationContext
+
     companion object {
         @Volatile
         private var INSTANCE: PreferenceManager? = null
@@ -26,17 +29,17 @@ class PreferenceManager private constructor(private val context: Context) {
         private val THEME_KEY = stringPreferencesKey("theme_setting")
     }
 
-    val isGridMode: Flow<Boolean> = context.dataStore.data.map { preferences ->
+    val isGridMode: Flow<Boolean> = appContext.dataStore.data.map { preferences ->
         preferences[IS_GRID_MODE] ?: false
     }
 
     suspend fun setGridMode(value: Boolean) {
-        context.dataStore.edit { preferences ->
+        appContext.dataStore.edit { preferences ->
             preferences[IS_GRID_MODE] = value
         }
     }
 
-    val themeSetting: Flow<ThemeSetting> = context.dataStore.data.map { preferences ->
+    val themeSetting: Flow<ThemeSetting> = appContext.dataStore.data.map { preferences ->
         when (preferences[THEME_KEY]) {
             ThemeSetting.DARK.name -> ThemeSetting.DARK
             else -> ThemeSetting.LIGHT
@@ -44,7 +47,7 @@ class PreferenceManager private constructor(private val context: Context) {
     }
 
     suspend fun setThemeSetting(setting: ThemeSetting) {
-        context.dataStore.edit { preferences ->
+        appContext.dataStore.edit { preferences ->
             preferences[THEME_KEY] = setting.name
         }
     }

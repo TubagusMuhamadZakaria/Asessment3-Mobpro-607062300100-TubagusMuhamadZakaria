@@ -7,6 +7,7 @@ class ResepRepository(private val resepDao: ResepDao) {
 
     fun getAllResep(): Flow<List<ResepEntity>> = resepDao.getAllResep()
 
+    @Suppress("unused")
     fun getResepById(id: Int): Flow<ResepEntity?> = resepDao.getResepById(id)
 
     suspend fun insertResep(resep: ResepEntity) = resepDao.insertResep(resep)
@@ -14,5 +15,4 @@ class ResepRepository(private val resepDao: ResepDao) {
     suspend fun updateResep(resep: ResepEntity) = resepDao.updateResep(resep)
 
     suspend fun deleteResep(resep: ResepEntity) = resepDao.deleteResep(resep)
-
 }
