@@ -12,6 +12,7 @@ import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.tubagus0100.resepku.data.Injection
 import com.tubagus0100.resepku.data.PreferenceManager
+import com.tubagus0100.resepku.data.ThemeSetting
 import com.tubagus0100.resepku.ui.ResepViewModel
 import com.tubagus0100.resepku.ui.screen.*
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
@@ -21,21 +22,26 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val preferenceManager = PreferenceManager.getInstance(this)
+
         setContent {
-            ResepkuTheme {
-                ResepkuApp()
+            val themeSetting by preferenceManager.themeSetting.collectAsState(initial = ThemeSetting.LIGHT)
+
+            ResepkuTheme(darkTheme = themeSetting == ThemeSetting.DARK) {
+                ResepkuApp(preferenceManager, themeSetting)
             }
         }
     }
 }
 
 @Composable
-fun ResepkuApp() {
+fun ResepkuApp(
+    preferenceManager: PreferenceManager,
+    themeSetting: ThemeSetting
+) {
     val navController = rememberNavController()
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-
-    val preferenceManager = PreferenceManager.getInstance(context)
 
     val viewModel: ResepViewModel = viewModel(
         factory = ResepViewModelFactory(
@@ -69,6 +75,13 @@ fun ResepkuApp() {
                 onToggleView = { newValue ->
                     scope.launch {
                         preferenceManager.setGridMode(newValue)
+                    }
+                },
+                currentTheme = themeSetting,
+                onToggleTheme = {
+                    scope.launch {
+                        val nextTheme = if (themeSetting == ThemeSetting.LIGHT) ThemeSetting.DARK else ThemeSetting.LIGHT
+                        preferenceManager.setThemeSetting(nextTheme)
                     }
                 }
             )
@@ -129,7 +142,8 @@ fun ResepkuApp() {
 @Preview(showBackground = true)
 @Composable
 fun ResepkuAppPreview() {
+    val dummyPref = PreferenceManager.getInstance(LocalContext.current)
     ResepkuTheme {
-        ResepkuApp()
+        ResepkuApp(dummyPref, ThemeSetting.LIGHT)
     }
 }

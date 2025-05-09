@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Brightness6
+import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.ViewModule
 import androidx.compose.material3.*
@@ -19,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tubagus0100.resepku.R
+import com.tubagus0100.resepku.data.ThemeSetting
 import com.tubagus0100.resepku.model1.ResepEntity
 import com.tubagus0100.resepku.ui.ResepViewModel
 
@@ -29,7 +32,9 @@ fun HomeScreen(
     onAddClick: () -> Unit,
     viewModel: ResepViewModel,
     isGridMode: Boolean,
-    onToggleView: (Boolean) -> Unit
+    onToggleView: (Boolean) -> Unit,
+    currentTheme: ThemeSetting,
+    onToggleTheme: () -> Unit
 ) {
     var query by remember { mutableStateOf("") }
     val selectedResepIds = remember { mutableStateListOf<Int>() }
@@ -51,11 +56,18 @@ fun HomeScreen(
                 actions = {
                     IconButton(onClick = { onToggleView(!isGridMode) }) {
                         Icon(
-                            imageVector = if (isGridMode) Icons.Default.List else Icons.Default.ViewModule,
-                            contentDescription = if (isGridMode) "Tampilan List" else "Tampilan Grid"
+                            imageVector = if (isGridMode) Icons.Default.List else Icons.Default.GridView,
+                            contentDescription = "Toggle View"
+                        )
+                    }
+                    IconButton(onClick = { onToggleTheme() }) {
+                        Icon(
+                            imageVector = Icons.Default.Brightness6,
+                            contentDescription = "Toggle Theme"
                         )
                     }
                 }
+
             )
         },
         bottomBar = {
