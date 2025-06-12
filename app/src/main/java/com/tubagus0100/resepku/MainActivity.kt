@@ -3,7 +3,6 @@ package com.tubagus0100.resepku
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -105,6 +104,9 @@ fun ResepkuApp(
                     navController.navigate("login") {
                         popUpTo("home") { inclusive = true }
                     }
+                },
+                onProfileClick = {
+                    navController.navigate("profile")
                 }
             )
         }
@@ -158,9 +160,11 @@ fun ResepkuApp(
                 }
             )
         }
-
         composable("userlist") {
             UserListScreen(viewModel = userViewModel)
+        }
+        composable("profile") {
+            ProfileScreen(onBack = { navController.popBackStack() })
         }
     }
 }

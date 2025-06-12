@@ -22,7 +22,6 @@ fun FormResepScreen(
     var bahan by rememberSaveable { mutableStateOf("") }
     var langkah by rememberSaveable { mutableStateOf("") }
 
-    // Set value awal saat resep tersedia (mode edit)
     LaunchedEffect(resep) {
         resep?.let {
             judul = it.judul

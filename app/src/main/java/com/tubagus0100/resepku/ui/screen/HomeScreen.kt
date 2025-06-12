@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Brightness6
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.GridView
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -53,8 +54,8 @@ fun HomeScreen(
     onToggleView: (Boolean) -> Unit,
     @Suppress("UNUSED_PARAMETER") currentTheme: ThemeSetting,
     onToggleTheme: () -> Unit,
-    onLogout: () -> Unit
-
+    onLogout: () -> Unit,
+    onProfileClick: () -> Unit
 ) {
     var query by remember { mutableStateOf("") }
     val selectedResepIds = remember { mutableStateListOf<Int>() }
@@ -81,15 +82,14 @@ fun HomeScreen(
                         )
                     }
                     IconButton(onClick = { onToggleTheme() }) {
-                        Icon(
-                            imageVector = Icons.Default.Brightness6,
-                            contentDescription = "Toggle Theme"
-                        )
+                        Icon(Icons.Default.Brightness6, contentDescription = "Toggle Theme")
+                    }
+                    IconButton(onClick = onProfileClick) {
+                        Icon(Icons.Default.Person, contentDescription = "Profil")
                     }
                     IconButton(onClick = onLogout) {
-                        Icon(imageVector = Icons.Default.ExitToApp, contentDescription = "Logout")
+                        Icon(Icons.Default.ExitToApp, contentDescription = "Logout")
                     }
-
                 }
             )
         },
