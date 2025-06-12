@@ -12,7 +12,6 @@ private val Context.dataStore by preferencesDataStore(name = "settings")
 
 class PreferenceManager private constructor(context: Context) {
 
-    // Hanya menyimpan applicationContext, aman dari memory leak
     private val appContext = context.applicationContext
 
     companion object {
@@ -27,8 +26,10 @@ class PreferenceManager private constructor(context: Context) {
 
         private val IS_GRID_MODE = booleanPreferencesKey("is_grid_mode")
         private val THEME_KEY = stringPreferencesKey("theme_setting")
+        private val IS_LOGGED_IN = booleanPreferencesKey("is_logged_in") // ✅ Tambahan
     }
 
+    // ✅ Grid mode
     val isGridMode: Flow<Boolean> = appContext.dataStore.data.map { preferences ->
         preferences[IS_GRID_MODE] ?: false
     }
@@ -49,6 +50,16 @@ class PreferenceManager private constructor(context: Context) {
     suspend fun setThemeSetting(setting: ThemeSetting) {
         appContext.dataStore.edit { preferences ->
             preferences[THEME_KEY] = setting.name
+        }
+    }
+
+    val isLoggedIn: Flow<Boolean> = appContext.dataStore.data.map { preferences ->
+        preferences[IS_LOGGED_IN] ?: false
+    }
+
+    suspend fun setLoggedIn(value: Boolean) {
+        appContext.dataStore.edit { preferences ->
+            preferences[IS_LOGGED_IN] = value
         }
     }
 }

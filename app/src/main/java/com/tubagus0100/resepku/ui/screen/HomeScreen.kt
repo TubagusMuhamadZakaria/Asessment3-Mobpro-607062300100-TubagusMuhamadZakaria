@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Brightness6
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -51,7 +52,9 @@ fun HomeScreen(
     isGridMode: Boolean,
     onToggleView: (Boolean) -> Unit,
     @Suppress("UNUSED_PARAMETER") currentTheme: ThemeSetting,
-    onToggleTheme: () -> Unit
+    onToggleTheme: () -> Unit,
+    onLogout: () -> Unit
+
 ) {
     var query by remember { mutableStateOf("") }
     val selectedResepIds = remember { mutableStateListOf<Int>() }
@@ -83,6 +86,10 @@ fun HomeScreen(
                             contentDescription = "Toggle Theme"
                         )
                     }
+                    IconButton(onClick = onLogout) {
+                        Icon(imageVector = Icons.Default.ExitToApp, contentDescription = "Logout")
+                    }
+
                 }
             )
         },
