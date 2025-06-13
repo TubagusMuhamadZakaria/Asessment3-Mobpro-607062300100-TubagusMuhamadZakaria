@@ -40,7 +40,8 @@ fun HomeScreen(
     onAddPostClick: () -> Unit,
     postList: List<Post>,
     onDeletePost: (Post) -> Unit,
-    isPostLoading: Boolean
+    isPostLoading: Boolean,
+    isConnected: Boolean,
 ) {
     var query by remember { mutableStateOf("") }
     val selectedResepIds = remember { mutableStateListOf<Int>() }
@@ -123,6 +124,18 @@ fun HomeScreen(
                 .padding(innerPadding)
                 .padding(8.dp)
         ) {
+            // OFFLINE INDICATOR
+            if (!isConnected) {
+                Text(
+                    text = "Sedang offline. Beberapa data mungkin tidak ditampilkan.",
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    textAlign = TextAlign.Center
+                )
+            }
+
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it },
@@ -188,12 +201,12 @@ fun HomeScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "Post dari Pengguna", style = MaterialTheme.typography.titleMedium)
+            Text("Post dari Pengguna", style = MaterialTheme.typography.titleMedium)
 
             LazyColumn {
                 items(postList) { post ->
-                    Text(text = post.title, style = MaterialTheme.typography.bodyLarge)
-                    Text(text = post.body, style = MaterialTheme.typography.bodySmall)
+                    Text(post.title, style = MaterialTheme.typography.bodyLarge)
+                    Text(post.body, style = MaterialTheme.typography.bodySmall)
                     Spacer(modifier = Modifier.height(12.dp))
                 }
             }
@@ -232,8 +245,8 @@ fun HomeScreen(
                             .padding(vertical = 4.dp)
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            Text(text = post.title, style = MaterialTheme.typography.titleMedium)
-                            Text(text = post.body, style = MaterialTheme.typography.bodyMedium)
+                            Text(post.title, style = MaterialTheme.typography.titleMedium)
+                            Text(post.body, style = MaterialTheme.typography.bodyMedium)
                             Spacer(modifier = Modifier.height(8.dp))
 
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {

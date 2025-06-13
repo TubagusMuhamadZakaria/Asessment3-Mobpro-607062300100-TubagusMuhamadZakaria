@@ -17,18 +17,24 @@ import com.tubagus0100.resepku.model.Post
 import com.tubagus0100.resepku.ui.*
 import com.tubagus0100.resepku.ui.screen.*
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
+import com.tubagus0100.resepku.util.ConnectivityObserver
 import com.tubagus0100.resepku.viewmodel.*
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val preferenceManager = PreferenceManager.getInstance(this)
 
         setContent {
             val themeSetting by preferenceManager.themeSetting.collectAsState(initial = ThemeSetting.LIGHT)
+
+            val context = LocalContext.current
+            val connectivityObserver = remember { ConnectivityObserver(context) }
+
             ResepkuTheme(darkTheme = themeSetting == ThemeSetting.DARK) {
-                ResepkuApp(preferenceManager, themeSetting)
+                ResepkuApp(preferenceManager, themeSetting, connectivityObserver)
             }
         }
     }
@@ -37,7 +43,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ResepkuApp(
     preferenceManager: PreferenceManager,
-    themeSetting: ThemeSetting
+    themeSetting: ThemeSetting,
+    connectivityObserver: ConnectivityObserver
 ) {
     val navController = rememberNavController()
     val context = LocalContext.current
@@ -63,6 +70,8 @@ fun ResepkuApp(
 
     val postList by localPostViewModel.posts.collectAsState()
     val mappedPosts = postList.map { Post(it.id, it.title, it.body) }
+
+    val isConnected by connectivityObserver.networkStatus.collectAsState(initial = true)
 
     NavHost(
         navController = navController,
@@ -128,7 +137,8 @@ fun ResepkuApp(
                         )
                     )
                 },
-                isPostLoading = localPostViewModel.isLoading.collectAsState().value
+                isPostLoading = localPostViewModel.isLoading.collectAsState().value,
+                isConnected = isConnected
             )
         }
 
@@ -216,7 +226,8 @@ fun ResepkuApp(
 @Composable
 fun ResepkuAppPreview() {
     val dummyPref = PreferenceManager.getInstance(LocalContext.current)
+    val dummyObserver = ConnectivityObserver(LocalContext.current)
     ResepkuTheme {
-        ResepkuApp(dummyPref, ThemeSetting.LIGHT)
+        ResepkuApp(dummyPref, ThemeSetting.LIGHT, dummyObserver)
     }
 }
