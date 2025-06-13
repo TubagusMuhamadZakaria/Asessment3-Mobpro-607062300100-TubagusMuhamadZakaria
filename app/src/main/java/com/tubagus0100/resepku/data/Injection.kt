@@ -20,7 +20,6 @@ object Injection {
     }
 
     fun provideUserRepository(): UserRepository {
-        val apiService = ApiConfig.getApiService()
-        return UserRepository(apiService)
+        return UserRepository(ApiConfig.getApiService())
     }
 }
