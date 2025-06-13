@@ -35,4 +35,10 @@ class LocalPostViewModel(private val repository: LocalPostRepository) : ViewMode
         }
     }
 
+    fun updatePost(post: PostEntity, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            repository.insertPost(post)
+            onSuccess()
+        }
+    }
 }

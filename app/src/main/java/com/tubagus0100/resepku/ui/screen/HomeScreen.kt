@@ -23,11 +23,13 @@ import com.tubagus0100.resepku.model.Post
 import com.tubagus0100.resepku.model1.PostEntity
 import com.tubagus0100.resepku.ui.ResepViewModel
 import androidx.compose.ui.Alignment
+import androidx.navigation.NavController
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    navController: NavController,
     onRecipeClick: (Int) -> Unit,
     onAddClick: () -> Unit,
     viewModel: ResepViewModel,
@@ -40,7 +42,8 @@ fun HomeScreen(
     onAddPostClick: () -> Unit,
     postList: List<Post>,
     onDeletePost: (Post) -> Unit,
-    isPostLoading: Boolean
+    isPostLoading: Boolean,
+
 ) {
     var query by remember { mutableStateOf("") }
     val selectedResepIds = remember { mutableStateListOf<Int>() }
@@ -234,11 +237,20 @@ fun HomeScreen(
                             Text(text = post.title, style = MaterialTheme.typography.titleMedium)
                             Text(text = post.body, style = MaterialTheme.typography.bodyMedium)
                             Spacer(modifier = Modifier.height(8.dp))
-                            Button(
-                                onClick = { showDialog = true },
-                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
-                            ) {
-                                Text("Hapus")
+
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Button(
+                                    onClick = { navController.navigate("editpost/${post.id}") }
+                                ) {
+                                    Text("Edit")
+                                }
+
+                                Button(
+                                    onClick = { showDialog = true },
+                                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                                ) {
+                                    Text("Hapus")
+                                }
                             }
                         }
                     }

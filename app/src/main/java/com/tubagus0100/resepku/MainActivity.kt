@@ -83,6 +83,7 @@ fun ResepkuApp(
 
         composable("home") {
             HomeScreen(
+                navController = navController,
                 onRecipeClick = { id ->
                     navController.navigate("detail/$id")
                 },
@@ -200,6 +201,23 @@ fun ResepkuApp(
                 }
             )
         }
+        composable(
+            route = "editpost/{postId}",
+            arguments = listOf(navArgument("postId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val postId = backStackEntry.arguments?.getInt("postId") ?: -1
+            val post = localPostViewModel.posts.collectAsState().value.find { it.id == postId }
+
+            if (post != null) {
+                EditPostScreen(
+                    post = post,
+                    postViewModel = localPostViewModel,
+                    onSuccess = { navController.popBackStack() },
+                    onCancel = { navController.popBackStack() }
+                )
+            }
+        }
+
     }
 }
 
