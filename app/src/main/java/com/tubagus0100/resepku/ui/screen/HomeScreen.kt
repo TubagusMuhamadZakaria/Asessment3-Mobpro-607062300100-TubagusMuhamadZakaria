@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.tubagus0100.resepku.R
 import com.tubagus0100.resepku.data.ThemeSetting
 import com.tubagus0100.resepku.model.Post
+import com.tubagus0100.resepku.model1.PostEntity
 import com.tubagus0100.resepku.ui.ResepViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,7 +36,8 @@ fun HomeScreen(
     onLogout: () -> Unit,
     onProfileClick: () -> Unit,
     onAddPostClick: () -> Unit,
-    postList: List<Post>
+    postList: List<Post>,
+    onDeletePost: (Post) -> Unit,
 ) {
     var query by remember { mutableStateOf("") }
     val selectedResepIds = remember { mutableStateListOf<Int>() }
@@ -170,6 +172,7 @@ fun HomeScreen(
                                 }
                             )
                         }
+
                     }
                 }
             }
@@ -187,6 +190,53 @@ fun HomeScreen(
                     Text(text = post.title, style = MaterialTheme.typography.bodyLarge)
                     Text(text = post.body, style = MaterialTheme.typography.bodySmall)
                     Spacer(modifier = Modifier.height(12.dp))
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+            Text("Postingan Anda:", style = MaterialTheme.typography.titleMedium)
+
+            LazyColumn {
+                items(postList) { post ->
+                    var showDialog by remember { mutableStateOf(false) }
+
+                    if (showDialog) {
+                        AlertDialog(
+                            onDismissRequest = { showDialog = false },
+                            title = { Text("Konfirmasi") },
+                            text = { Text("Hapus postingan ini?") },
+                            confirmButton = {
+                                TextButton(onClick = {
+                                    onDeletePost(post)
+                                    showDialog = false
+                                }) {
+                                    Text("Ya")
+                                }
+                            },
+                            dismissButton = {
+                                TextButton(onClick = { showDialog = false }) {
+                                    Text("Batal")
+                                }
+                            }
+                        )
+                    }
+
+                    Card(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp)
+                    ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Text(text = post.title, style = MaterialTheme.typography.titleMedium)
+                            Text(text = post.body, style = MaterialTheme.typography.bodyMedium)
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Button(
+                                onClick = { showDialog = true },
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                            ) {
+                                Text("Hapus")
+                            }
+                        }
+                    }
                 }
             }
         }

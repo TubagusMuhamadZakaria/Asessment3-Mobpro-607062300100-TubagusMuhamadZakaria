@@ -20,4 +20,11 @@ class LocalPostViewModel(private val repository: LocalPostRepository) : ViewMode
             onSuccess()
         }
     }
+
+    fun deletePost(post: PostEntity) {
+        viewModelScope.launch {
+            repository.deletePost(post)
+        }
+    }
+
 }

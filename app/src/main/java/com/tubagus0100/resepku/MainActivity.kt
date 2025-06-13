@@ -64,7 +64,6 @@ fun ResepkuApp(
     val postList by localPostViewModel.posts.collectAsState()
     val mappedPosts = postList.map { Post(it.id, it.title, it.body) }
 
-
     NavHost(
         navController = navController,
         startDestination = if (isLoggedIn) "home" else "login"
@@ -118,7 +117,17 @@ fun ResepkuApp(
                 onAddPostClick = {
                     navController.navigate("addpost")
                 },
-                postList = mappedPosts
+                postList = mappedPosts,
+                onDeletePost = { post ->
+                    localPostViewModel.deletePost(
+                        com.tubagus0100.resepku.model1.PostEntity(
+                            id = post.id,
+                            title = post.title,
+                            body = post.body
+                        )
+                    )
+                }
+
             )
         }
 
