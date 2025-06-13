@@ -13,9 +13,9 @@ import com.tubagus0100.resepku.model1.ResepEntity
     exportSchema = false
 )
 abstract class ResepDatabase : RoomDatabase() {
+
     abstract fun resepDao(): ResepDao
     abstract fun postDao(): PostDao
-
 
     companion object {
         @Volatile
@@ -26,8 +26,10 @@ abstract class ResepDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     ResepDatabase::class.java,
-                    "resep_database"
-                ).build()
+                    "resepku_database"
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }
