@@ -116,7 +116,7 @@ fun ResepkuApp(
                     navController.navigate("profile")
                 },
                 onAddPostClick = {
-                    navController.navigate("addpost")
+                    navController.navigate("addpost?postId=-1")
                 },
                 postList = mappedPosts,
                 onDeletePost = { post ->
@@ -190,9 +190,17 @@ fun ResepkuApp(
             ProfileScreen(onBack = { navController.popBackStack() })
         }
 
-        composable("addpost") {
+        composable(
+            "addpost?postId={postId}",
+            arguments = listOf(navArgument("postId") {
+                defaultValue = -1
+                type = NavType.IntType
+            })
+        ) { backStackEntry ->
+            val postId = backStackEntry.arguments?.getInt("postId") ?: -1
             AddPostScreen(
                 postViewModel = localPostViewModel,
+                postId = postId,
                 onPostSuccess = {
                     navController.popBackStack()
                 },
@@ -201,23 +209,6 @@ fun ResepkuApp(
                 }
             )
         }
-        composable(
-            route = "editpost/{postId}",
-            arguments = listOf(navArgument("postId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val postId = backStackEntry.arguments?.getInt("postId") ?: -1
-            val post = localPostViewModel.posts.collectAsState().value.find { it.id == postId }
-
-            if (post != null) {
-                EditPostScreen(
-                    post = post,
-                    postViewModel = localPostViewModel,
-                    onSuccess = { navController.popBackStack() },
-                    onCancel = { navController.popBackStack() }
-                )
-            }
-        }
-
     }
 }
 

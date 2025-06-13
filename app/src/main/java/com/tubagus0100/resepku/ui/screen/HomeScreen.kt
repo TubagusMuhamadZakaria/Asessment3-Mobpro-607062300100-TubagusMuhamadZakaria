@@ -12,19 +12,17 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.tubagus0100.resepku.R
 import com.tubagus0100.resepku.data.ThemeSetting
 import com.tubagus0100.resepku.model.Post
-import com.tubagus0100.resepku.model1.PostEntity
 import com.tubagus0100.resepku.ui.ResepViewModel
-import androidx.compose.ui.Alignment
-import androidx.navigation.NavController
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,8 +40,7 @@ fun HomeScreen(
     onAddPostClick: () -> Unit,
     postList: List<Post>,
     onDeletePost: (Post) -> Unit,
-    isPostLoading: Boolean,
-
+    isPostLoading: Boolean
 ) {
     var query by remember { mutableStateOf("") }
     val selectedResepIds = remember { mutableStateListOf<Int>() }
@@ -229,9 +226,10 @@ fun HomeScreen(
                         )
                     }
 
-                    Card(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp)
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp)
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(text = post.title, style = MaterialTheme.typography.titleMedium)
@@ -240,7 +238,9 @@ fun HomeScreen(
 
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Button(
-                                    onClick = { navController.navigate("editpost/${post.id}") }
+                                    onClick = {
+                                        navController.navigate("addpost?postId=${post.id}")
+                                    }
                                 ) {
                                     Text("Edit")
                                 }

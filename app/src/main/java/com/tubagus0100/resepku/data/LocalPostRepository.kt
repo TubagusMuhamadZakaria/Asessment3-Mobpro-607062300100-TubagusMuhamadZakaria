@@ -9,6 +9,10 @@ class LocalPostRepository(private val dao: PostDao) {
         return dao.getAllPosts()
     }
 
+    fun getPostById(id: Int): Flow<PostEntity?> {
+        return dao.getPostById(id)
+    }
+
     suspend fun insertPost(post: PostEntity) {
         dao.insert(post)
     }

@@ -13,17 +13,23 @@ import com.tubagus0100.resepku.ui.LocalPostViewModel
 @Composable
 fun AddPostScreen(
     postViewModel: LocalPostViewModel,
+    postId: Int,
     onPostSuccess: () -> Unit,
     onCancel: () -> Unit
 ) {
-    var title by remember { mutableStateOf("") }
-    var body by remember { mutableStateOf("") }
+    val allPosts by postViewModel.posts.collectAsState()
+    val existingPost = allPosts.find { it.id == postId }
+
+    var title by remember { mutableStateOf(existingPost?.title ?: "") }
+    var body by remember { mutableStateOf(existingPost?.body ?: "") }
 
     val isLoading by postViewModel.isLoading.collectAsState()
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Tambah Post") })
+            TopAppBar(title = {
+                Text(if (postId == -1) "Tambah Post" else "Edit Post")
+            })
         }
     ) { padding ->
         Column(
@@ -62,24 +68,30 @@ fun AddPostScreen(
 
                 if (isLoading) {
                     CircularProgressIndicator(
-                        modifier = Modifier
-                            .padding(start = 16.dp)
-                            .align(Alignment.CenterVertically)
+                        modifier = Modifier.align(Alignment.CenterVertically)
                     )
-                } else {
-                    Button(
-                        onClick = {
-                            if (title.isNotBlank() && body.isNotBlank()) {
+                }
+
+                Button(
+                    onClick = {
+                        if (title.isNotBlank() && body.isNotBlank()) {
+                            if (postId == -1) {
                                 postViewModel.insertPost(
                                     PostEntity(title = title, body = body)
                                 ) {
                                     onPostSuccess()
                                 }
+                            } else {
+                                postViewModel.updatePost(
+                                    PostEntity(id = postId, title = title, body = body)
+                                ) {
+                                    onPostSuccess()
+                                }
                             }
                         }
-                    ) {
-                        Text("Simpan")
                     }
+                ) {
+                    Text("Simpan")
                 }
             }
         }

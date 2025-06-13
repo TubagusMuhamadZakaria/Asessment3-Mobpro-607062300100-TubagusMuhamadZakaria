@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tubagus0100.resepku.data.LocalPostRepository
 import com.tubagus0100.resepku.model1.PostEntity
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -41,4 +42,9 @@ class LocalPostViewModel(private val repository: LocalPostRepository) : ViewMode
             onSuccess()
         }
     }
+
+    fun getPostById(id: Int): Flow<PostEntity?> {
+        return repository.getPostById(id)
+    }
+
 }
