@@ -4,12 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.tubagus0100.resepku.model1.PostEntity
 import com.tubagus0100.resepku.model1.ResepEntity
 
-@Database(entities = [ResepEntity::class], version = 1, exportSchema = false)
+@Database(
+    entities = [ResepEntity::class, PostEntity::class],
+    version = 2,
+    exportSchema = false
+)
 abstract class ResepDatabase : RoomDatabase() {
-
     abstract fun resepDao(): ResepDao
+    abstract fun postDao(): PostDao
+
 
     companion object {
         @Volatile

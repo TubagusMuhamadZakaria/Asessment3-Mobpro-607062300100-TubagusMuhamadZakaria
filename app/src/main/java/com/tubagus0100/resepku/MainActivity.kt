@@ -13,12 +13,11 @@ import androidx.navigation.navArgument
 import com.tubagus0100.resepku.data.Injection
 import com.tubagus0100.resepku.data.PreferenceManager
 import com.tubagus0100.resepku.data.ThemeSetting
-import com.tubagus0100.resepku.ui.ResepViewModel
-import com.tubagus0100.resepku.ui.UserViewModel
+import com.tubagus0100.resepku.model.Post
+import com.tubagus0100.resepku.ui.*
 import com.tubagus0100.resepku.ui.screen.*
 import com.tubagus0100.resepku.ui.theme.ResepkuTheme
-import com.tubagus0100.resepku.viewmodel.ResepViewModelFactory
-import com.tubagus0100.resepku.viewmodel.UserViewModelFactory
+import com.tubagus0100.resepku.viewmodel.*
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -47,7 +46,7 @@ fun ResepkuApp(
     val isLoggedIn by preferenceManager.isLoggedIn.collectAsState(initial = false)
     val isGridMode by preferenceManager.isGridMode.collectAsState(initial = false)
 
-    val viewModel: ResepViewModel = viewModel(
+    val resepViewModel: ResepViewModel = viewModel(
         factory = ResepViewModelFactory(
             Injection.provideRepository(context),
             preferenceManager
@@ -57,6 +56,14 @@ fun ResepkuApp(
     val userViewModel: UserViewModel = viewModel(
         factory = UserViewModelFactory(Injection.provideUserRepository())
     )
+
+    val localPostViewModel: LocalPostViewModel = viewModel(
+        factory = LocalPostViewModelFactory(Injection.provideLocalPostRepository(context))
+    )
+
+    val postList by localPostViewModel.posts.collectAsState()
+    val mappedPosts = postList.map { Post(it.id, it.title, it.body) }
+
 
     NavHost(
         navController = navController,
@@ -83,7 +90,7 @@ fun ResepkuApp(
                 onAddClick = {
                     navController.navigate("form?resepId=-1")
                 },
-                viewModel = viewModel,
+                viewModel = resepViewModel,
                 isGridMode = isGridMode,
                 onToggleView = { newValue ->
                     scope.launch {
@@ -107,7 +114,11 @@ fun ResepkuApp(
                 },
                 onProfileClick = {
                     navController.navigate("profile")
-                }
+                },
+                onAddPostClick = {
+                    navController.navigate("addpost")
+                },
+                postList = mappedPosts
             )
         }
 
@@ -116,7 +127,7 @@ fun ResepkuApp(
             arguments = listOf(navArgument("resepId") { type = NavType.IntType })
         ) { backStackEntry ->
             val resepId = backStackEntry.arguments?.getInt("resepId") ?: -1
-            val resep = viewModel.getResepById(resepId).collectAsState(initial = null).value
+            val resep = resepViewModel.getResepById(resepId).collectAsState(initial = null).value
 
             resep?.let {
                 DetailScreen(
@@ -126,7 +137,7 @@ fun ResepkuApp(
                         navController.navigate("form?resepId=${resep.id}")
                     },
                     onDeleteClick = {
-                        viewModel.deleteResep(it)
+                        resepViewModel.deleteResep(it)
                         navController.popBackStack()
                     }
                 )
@@ -143,15 +154,15 @@ fun ResepkuApp(
             )
         ) { backStackEntry ->
             val resepId = backStackEntry.arguments?.getInt("resepId") ?: -1
-            val resep = viewModel.getResepById(resepId).collectAsState(initial = null).value
+            val resep = resepViewModel.getResepById(resepId).collectAsState(initial = null).value
 
             FormResepScreen(
                 resep = resep,
                 onSave = { entity ->
                     if (resepId == -1) {
-                        viewModel.insertResep(entity)
+                        resepViewModel.insertResep(entity)
                     } else {
-                        viewModel.updateResep(entity)
+                        resepViewModel.updateResep(entity)
                     }
                     navController.popBackStack()
                 },
@@ -160,11 +171,25 @@ fun ResepkuApp(
                 }
             )
         }
+
         composable("userlist") {
             UserListScreen(viewModel = userViewModel)
         }
+
         composable("profile") {
             ProfileScreen(onBack = { navController.popBackStack() })
+        }
+
+        composable("addpost") {
+            AddPostScreen(
+                postViewModel = localPostViewModel,
+                onPostSuccess = {
+                    navController.popBackStack()
+                },
+                onCancel = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

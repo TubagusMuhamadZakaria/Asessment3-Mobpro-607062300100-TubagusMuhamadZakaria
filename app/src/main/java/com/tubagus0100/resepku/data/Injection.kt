@@ -22,4 +22,10 @@ object Injection {
     fun provideUserRepository(): UserRepository {
         return UserRepository(ApiConfig.getApiService())
     }
+
+    fun provideLocalPostRepository(context: Context): LocalPostRepository {
+        val database = ResepDatabase.getDatabase(context)
+        return LocalPostRepository(database.postDao())
+    }
+
 }
