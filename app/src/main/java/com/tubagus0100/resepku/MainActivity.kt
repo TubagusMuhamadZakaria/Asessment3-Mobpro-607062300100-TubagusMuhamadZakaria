@@ -126,8 +126,8 @@ fun ResepkuApp(
                             body = post.body
                         )
                     )
-                }
-
+                },
+                isPostLoading = localPostViewModel.isLoading.collectAsState().value
             )
         }
 

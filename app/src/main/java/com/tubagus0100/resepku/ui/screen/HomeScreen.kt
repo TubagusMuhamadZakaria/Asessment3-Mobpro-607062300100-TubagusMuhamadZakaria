@@ -22,6 +22,8 @@ import com.tubagus0100.resepku.data.ThemeSetting
 import com.tubagus0100.resepku.model.Post
 import com.tubagus0100.resepku.model1.PostEntity
 import com.tubagus0100.resepku.ui.ResepViewModel
+import androidx.compose.ui.Alignment
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,6 +40,7 @@ fun HomeScreen(
     onAddPostClick: () -> Unit,
     postList: List<Post>,
     onDeletePost: (Post) -> Unit,
+    isPostLoading: Boolean
 ) {
     var query by remember { mutableStateOf("") }
     val selectedResepIds = remember { mutableStateListOf<Int>() }
@@ -129,6 +132,14 @@ fun HomeScreen(
                     .padding(bottom = 8.dp)
             )
 
+            if (isPostLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
+            }
+
             if (filteredResep.isEmpty()) {
                 Text(
                     text = stringResource(R.string.not_found_message),
@@ -172,18 +183,12 @@ fun HomeScreen(
                                 }
                             )
                         }
-
                     }
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "Post dari Pengguna",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
+            Text(text = "Post dari Pengguna", style = MaterialTheme.typography.titleMedium)
 
             LazyColumn {
                 items(postList) { post ->

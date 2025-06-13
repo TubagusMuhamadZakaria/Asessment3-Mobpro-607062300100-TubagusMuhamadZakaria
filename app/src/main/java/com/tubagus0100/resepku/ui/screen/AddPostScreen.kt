@@ -3,6 +3,7 @@ package com.tubagus0100.resepku.ui.screen
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.tubagus0100.resepku.model1.PostEntity
@@ -17,6 +18,8 @@ fun AddPostScreen(
 ) {
     var title by remember { mutableStateOf("") }
     var body by remember { mutableStateOf("") }
+
+    val isLoading by postViewModel.isLoading.collectAsState()
 
     Scaffold(
         topBar = {
@@ -49,22 +52,34 @@ fun AddPostScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Button(onClick = onCancel) {
                     Text("Batal")
                 }
-                Button(
-                    onClick = {
-                        if (title.isNotBlank() && body.isNotBlank()) {
-                            postViewModel.insertPost(
-                                PostEntity(title = title, body = body)
-                            ) {
-                                onPostSuccess()
+
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .padding(start = 16.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                } else {
+                    Button(
+                        onClick = {
+                            if (title.isNotBlank() && body.isNotBlank()) {
+                                postViewModel.insertPost(
+                                    PostEntity(title = title, body = body)
+                                ) {
+                                    onPostSuccess()
+                                }
                             }
                         }
+                    ) {
+                        Text("Simpan")
                     }
-                ) {
-                    Text("Simpan")
                 }
             }
         }
